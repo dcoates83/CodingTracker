@@ -14,12 +14,11 @@
                 {
                     _running = false;
                 }
+                //var DB = new DBFactory().CreateConnection(ConfigurationManager.ConnectionStrings[1].ConnectionString);
 
                 Console.WriteLine(resp);
             }
             //var test = ConfigurationManager.ConnectionStrings[1].ConnectionString;
-
-
 
             // create a table
             // modal that maps the database entities
