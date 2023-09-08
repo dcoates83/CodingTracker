@@ -48,5 +48,27 @@ INSERT INTO {_table} (
 ";
             tblCommand.ExecuteNonQuery();
         }
+        public static void UpdateRecord(string connectionString, string column, string value, int id)
+        {
+            var conn = new DBFactory().CreateConnection(connectionString);
+            var tblCommand = conn.CreateCommand();
+            tblCommand.CommandText = @$"
+UPDATE {_table} 
+SET {column} = {value}
+WHERE Id = {id};
+;
+";
+            tblCommand.ExecuteNonQuery();
+        }
+        public static void DeleteRecord(string connectionString, int id)
+        {
+            var conn = new DBFactory().CreateConnection(connectionString);
+            var tblCommand = conn.CreateCommand();
+            tblCommand.CommandText = @$"
+DELETE FROM {_table} WHERE ID = {id};
+";
+            tblCommand.ExecuteNonQuery();
+        }
+
     }
 }

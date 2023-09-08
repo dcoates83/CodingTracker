@@ -1,4 +1,4 @@
-﻿namespace CodingTracker
+﻿namespace CodingTracker.Modals
 {
     internal class CodingSessionModal
     {

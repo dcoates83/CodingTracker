@@ -1,7 +1,9 @@
-﻿namespace CodingTracker
+﻿namespace CodingTracker.Controllers
 {
     internal class CodingController
     {
+        static void
+
         public static void ParseUserInput(string input)
         {
             switch (input)
