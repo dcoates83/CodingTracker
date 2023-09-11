@@ -1,4 +1,6 @@
-﻿namespace CodingTracker
+﻿using CodingTracker.Controllers;
+
+namespace CodingTracker
 {
     internal class Program
     {
@@ -8,15 +10,16 @@
             while (_running)
             {
                 UserInput.PromptUser();
-                var resp = UserInput.UserResponse();
+                var resp = UserInput.IsValidUserResponse();
 
                 if (resp != null && resp == "0")
                 {
                     _running = false;
                 }
                 //var DB = new DBFactory().CreateConnection(ConfigurationManager.ConnectionStrings[1].ConnectionString);
+                var CodingController = new CodingController();
+                CodingController.ParseUserInput(resp);
 
-                Console.WriteLine(resp);
             }
             //var test = ConfigurationManager.ConnectionStrings[1].ConnectionString;
 

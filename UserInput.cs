@@ -13,14 +13,14 @@
 Type 0 to  Close Application
 Type 1 to Start a Timer
 Type 2 to Stop a Timer
-Type 3 to Enter Start and Stop Time Manually
+Type 3 to Create a Coding Session Record
 Type 4 to View All Records
 Type 5 to Delete a Record
 Type 6 to Update a Record
 ");
             Console.WriteLine("-----------------------------------");
         }
-        public static string UserResponse()
+        public static string IsValidUserResponse()
         {
             var resp = Console.ReadLine();
             if (String.IsNullOrWhiteSpace(resp))
