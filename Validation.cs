@@ -6,7 +6,6 @@
         {
             DateTime _Time;
             while (!DateTime.TryParseExact(_line, format, null, System.Globalization.DateTimeStyles.AllowInnerWhite, out _Time))
-            //while (!DateTime.TryParseExact(_line, format, null, System.Globalization.DateTimeStyles.None, out _Time))
             {
                 Console.WriteLine("Invalid date, please retry");
                 _line = Console.ReadLine();

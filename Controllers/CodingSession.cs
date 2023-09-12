@@ -68,6 +68,31 @@ namespace CodingTracker.Controllers
 
         }
 
+        public static CodingSession CreateTimerRecord()
+        {
+            var CodingSession = new CodingSession();
 
+            var _timeFormat = "MM/dd/yyyy hh:mm";
+            //var _timeFormat = new TimeFomat("MM/dd/yyyy hh:mm")
+
+            Console.WriteLine($"Please provide a Start Time, in the format of {_timeFormat}");
+            var _startTimeResp = Console.ReadLine();
+            DateTime _startTime = Validation.ValidateDateResponse(ref _startTimeResp, _timeFormat);
+
+            Console.WriteLine($"Please provide a End Time, in the format of {_timeFormat}");
+            var _endTimeResp = Console.ReadLine();
+            DateTime _endTime = Validation.ValidateDateResponse(ref _endTimeResp, _timeFormat);
+
+            CodingSession.SetStartTime((DateTime)_startTime);
+            CodingSession.SetEndTime((DateTime)_endTime);
+
+            return CodingSession;
+        }
+
+        public void Save()
+        {
+            var service = new CodingSessionService("your_connection_string_here");
+            service.Save(this);
+        }
     }
 }

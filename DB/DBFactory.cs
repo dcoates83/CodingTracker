@@ -1,6 +1,6 @@
 ﻿using System.Data.SQLite;
 
-namespace CodingTracker
+namespace CodingTracker.DB
 {
 
     internal class DBFactory
@@ -69,6 +69,25 @@ DELETE FROM {_table} WHERE ID = {id};
 ";
             tblCommand.ExecuteNonQuery();
         }
+        public static int? GetRecordId(string connectionString, string searchValue, string column)
+        {
+            var conn = new DBFactory().CreateConnection(connectionString);
+            var tblCommand = conn.CreateCommand();
+            tblCommand.CommandText = $"SELECT id FROM {_table} WHERE {column} = @SearchValue";
+            tblCommand.Parameters.AddWithValue("@SearchValue", searchValue);
+            tblCommand.ExecuteNonQuery();
+            var reader = tblCommand.ExecuteReader();
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    return reader.GetInt32(0); // Gets the integer value from the first column (ID)
+                }
+            }
+            reader.Close();
+            conn.Close();
 
+            return null;
+        }
     }
 }
