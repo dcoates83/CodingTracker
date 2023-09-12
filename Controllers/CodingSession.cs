@@ -11,6 +11,7 @@ namespace CodingTracker.Controllers
         {
             if (_time == null)
             {
+
                 _time = new CodingSessionModal();
                 _time.StartTime = DateTime.Now;
                 Console.WriteLine($"Timer Started at {DateTime.Now.ToString()}");
@@ -22,17 +23,15 @@ namespace CodingTracker.Controllers
 
         }
         // Constructor with an initial time value
-        public void StartTimer(DateTime initialTime)
+        public void SetStartTime(DateTime initialTime)
         {
+
             if (_time == null)
             {
                 _time = new CodingSessionModal();
                 _time.StartTime = initialTime;
             }
-            if (_time.StartTime != null)
-            {
-                Console.WriteLine($"There is already an active timer. Timer: {_time.StartTime.ToString()}");
-            }
+
         }
         public void StopTimer()
         {
@@ -51,13 +50,14 @@ namespace CodingTracker.Controllers
 
         }
         // Constructor with an initial time value
-        public void StopTimer(DateTime endTime)
+        public void SetEndTime(DateTime endTime)
         {
             if (_time != null && _time.StartTime != null)
             {
                 _time.EndTime = endTime;
                 _time.Duration = _time.EndTime - _time.StartTime;
 
+                Console.WriteLine();
                 Console.WriteLine($"Duration: {_time.Duration}");
             }
             else

@@ -3,9 +3,11 @@
     internal class CodingController
     {
 
+        public string? TimeFormat { get; set; }
         public static void ParseUserInput(string input)
         {
             var CodingSession = new CodingSession();
+
 
             switch (input)
             {
@@ -16,16 +18,18 @@
                     CodingSession.StopTimer();
                     break;
                 case "3":
-                    Console.WriteLine("Please provide a Start Time");
+                    var _timeFormat = new CodingController().TimeFormat = "MM/dd/yyyy hh:mm";
+
+                    Console.WriteLine($"Please provide a Start Time, in the format of {_timeFormat}");
                     var _startTimeResp = Console.ReadLine();
-                    DateTime _startTime = Validation.ValidateDateResponse(ref _startTimeResp);
+                    DateTime _startTime = Validation.ValidateDateResponse(ref _startTimeResp, _timeFormat);
 
-                    Console.WriteLine("Please provide a End Time");
+                    Console.WriteLine($"Please provide a End Time, in the format of {_timeFormat}");
                     var _endTimeResp = Console.ReadLine();
-                    DateTime _endTime = Validation.ValidateDateResponse(ref _endTimeResp);
+                    DateTime _endTime = Validation.ValidateDateResponse(ref _endTimeResp, _timeFormat);
 
-                    CodingSession.StartTimer((DateTime)_startTime);
-                    CodingSession.StopTimer((DateTime)_endTime);
+                    CodingSession.SetStartTime((DateTime)_startTime);
+                    CodingSession.SetEndTime((DateTime)_endTime);
 
                     break;
                 case "4":
