@@ -13,11 +13,22 @@ namespace CodingTracker.DB
         }
         public SQLiteConnection CreateConnection(string connectionString)
         {
-            using (var conn = new SQLiteConnection(connectionString))
-            {
-                conn.Open();
-                return conn;
-            }
+            var conn = new SQLiteConnection(connectionString);
+            conn.Open();
+            var tblCommand = conn.CreateCommand();
+            tblCommand.CommandText = @$"
+CREATE TABLE IF NOT EXISTS {_table} (
+    Id        INT  NOT NULL,
+    StartTime TIME,
+    EndTime   TIME,
+    Duration  TIME,
+    PRIMARY KEY (
+        Id
+    )
+);
+";
+            tblCommand.ExecuteNonQuery();
+            return conn;
         }
         public static void CreateTable(string connectionString)
         {

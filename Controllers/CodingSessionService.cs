@@ -14,18 +14,16 @@ namespace CodingTracker.Controllers
             _connectionString = connectionString;
         }
 
-        public static void Save(CodingSessionModal codingSession)
+        public void Save(CodingSessionModal codingSession)
         {
-            // Convert your CodingSession data to the appropriate database columns and values here
-            // For instance, suppose CodingSessionModal contains StartTime, EndTime, and Duration
 
-            var startTime = codingSession.StartTime?.ToString("O");
-            var endTime = codingSession.EndTime?.ToString("O");
-            var duration = codingSession.Duration?.ToString("c");
+            var startTime = codingSession.StartTime?.ToString();
+            var endTime = codingSession.EndTime?.ToString();
+            var duration = codingSession.Duration?.ToString();
             // Use DBFactory to insert the record
             DBFactory.InsertRecord(_connectionString, "StartTime, EndTime, Duration", $"'{startTime}', '{endTime}', '{duration}'");
         }
 
-        // Other methods for updating, deleting, etc.
+
     }
 }

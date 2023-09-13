@@ -5,60 +5,61 @@ namespace CodingTracker.Controllers
     public class CodingSession
     {
 
-        private CodingSessionModal? _time;
-
-        public void StartTimer()
+        public void StartTimer(CodingSessionModal time)
         {
-            if (_time == null)
+            if (time != null && time.StartTime != null)
+            {
+                Console.WriteLine($"There is already an active timer. Timer: {time.StartTime.ToString()}");
+            }
+            else
             {
 
-                _time = new CodingSessionModal();
-                _time.StartTime = DateTime.Now;
+                time = new CodingSessionModal();
+                time.StartTime = DateTime.Now;
                 Console.WriteLine($"Timer Started at {DateTime.Now.ToString()}");
             }
-            if (_time.StartTime != null)
-            {
-                Console.WriteLine($"There is already an active timer. Timer: {_time.StartTime.ToString()}");
-            }
+
 
         }
         // Constructor with an initial time value
-        public void SetStartTime(DateTime initialTime)
+        public void SetStartTime(CodingSessionModal time, DateTime initialTime)
         {
 
-            if (_time == null)
+            if (time == null)
             {
-                _time = new CodingSessionModal();
-                _time.StartTime = initialTime;
+                time = new CodingSessionModal();
+                time.StartTime = initialTime;
             }
 
         }
-        public void StopTimer()
+        public void StopTimer(CodingSessionModal time)
+
         {
-            if (_time != null && _time.StartTime != null)
-            {
-                _time.EndTime = DateTime.Now;
-                _time.Duration = _time.EndTime - _time.StartTime;
-                Console.WriteLine($"Timer Ended at {DateTime.Now.ToString()}");
-                Console.WriteLine($"Duration: {_time.Duration}");
-            }
-            else
+            if (time == null)
             {
                 Console.WriteLine("There is no active timer, please start a timer");
             }
+            else if (time != null && time.StartTime != null)
+            {
+                time.EndTime = DateTime.Now;
+                time.Duration = time.EndTime - time.StartTime;
+                Console.WriteLine($"Timer Ended at {DateTime.Now.ToString()}");
+                Console.WriteLine($"Duration: {time.Duration}");
+            }
+
 
 
         }
         // Constructor with an initial time value
-        public void SetEndTime(DateTime endTime)
+        public void SetEndTime(CodingSessionModal time, DateTime endTime)
         {
-            if (_time != null && _time.StartTime != null)
+            if (time != null && time.StartTime != null)
             {
-                _time.EndTime = endTime;
-                _time.Duration = _time.EndTime - _time.StartTime;
+                time.EndTime = endTime;
+                time.Duration = time.EndTime - time.StartTime;
 
                 Console.WriteLine();
-                Console.WriteLine($"Duration: {_time.Duration}");
+                Console.WriteLine($"Duration: {time.Duration}");
             }
             else
             {
@@ -68,31 +69,27 @@ namespace CodingTracker.Controllers
 
         }
 
-        public static CodingSession CreateTimerRecord()
+        public static CodingSession CreateTimerRecord(CodingSessionModal time)
         {
             var CodingSession = new CodingSession();
 
-            var _timeFormat = "MM/dd/yyyy hh:mm";
-            //var _timeFormat = new TimeFomat("MM/dd/yyyy hh:mm")
+            var timeFormat = "MM/dd/yyyy hh:mm";
+            //var timeFormat = new TimeFomat("MM/dd/yyyy hh:mm")
 
-            Console.WriteLine($"Please provide a Start Time, in the format of {_timeFormat}");
+            Console.WriteLine($"Please provide a Start Time, in the format of {timeFormat}");
             var _startTimeResp = Console.ReadLine();
-            DateTime _startTime = Validation.ValidateDateResponse(ref _startTimeResp, _timeFormat);
+            DateTime _startTime = Validation.ValidateDateResponse(ref _startTimeResp, timeFormat);
 
-            Console.WriteLine($"Please provide a End Time, in the format of {_timeFormat}");
+            Console.WriteLine($"Please provide a End Time, in the format of {timeFormat}");
             var _endTimeResp = Console.ReadLine();
-            DateTime _endTime = Validation.ValidateDateResponse(ref _endTimeResp, _timeFormat);
+            DateTime _endTime = Validation.ValidateDateResponse(ref _endTimeResp, timeFormat);
 
-            CodingSession.SetStartTime((DateTime)_startTime);
-            CodingSession.SetEndTime((DateTime)_endTime);
+            CodingSession.SetStartTime(time, (DateTime)_startTime);
+            CodingSession.SetEndTime(time, (DateTime)_endTime);
 
             return CodingSession;
         }
 
-        public void Save()
-        {
-            var service = new CodingSessionService("your_connection_string_here");
-            service.Save(this);
-        }
+
     }
 }

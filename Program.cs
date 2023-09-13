@@ -17,7 +17,7 @@ namespace CodingTracker
                     _running = false;
                 }
                 //var DB = new DBFactory().CreateConnection(ConfigurationManager.ConnectionStrings[1].ConnectionString);
-                var CodingController = new CodingSessionService();
+                //var CodingController = new CodingSessionService();
                 UserInput.ParseUserInput(resp);
 
             }
