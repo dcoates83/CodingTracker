@@ -1,4 +1,5 @@
 ﻿using CodingTracker.Modals;
+using System.Configuration;
 
 namespace CodingTracker.Controllers
 {
@@ -18,7 +19,9 @@ namespace CodingTracker.Controllers
                 time.StartTime = DateTime.Now;
                 Console.WriteLine($"Timer Started at {DateTime.Now.ToString()}");
             }
-
+            var CodingSessionService = new CodingSessionService(ConfigurationManager.ConnectionStrings[1].ConnectionString);
+            CodingSessionService.Save(time);
+            //return time;
 
         }
         // Constructor with an initial time value
@@ -32,7 +35,7 @@ namespace CodingTracker.Controllers
             }
 
         }
-        public void StopTimer(CodingSessionModal time)
+        public CodingSessionModal StopTimer(CodingSessionModal time)
 
         {
             if (time == null)
@@ -46,7 +49,7 @@ namespace CodingTracker.Controllers
                 Console.WriteLine($"Timer Ended at {DateTime.Now.ToString()}");
                 Console.WriteLine($"Duration: {time.Duration}");
             }
-
+            return time;
 
 
         }

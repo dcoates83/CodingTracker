@@ -7,44 +7,30 @@ namespace CodingTracker.DB
     {
         static readonly string _table = "CodingSession";
 
-        static string GetTable()
-        {
-            return _table;
-        }
+
         public SQLiteConnection CreateConnection(string connectionString)
+        {
+            var conn = new SQLiteConnection(connectionString);
+            conn.Open();
+            CreateTable(connectionString);
+            return conn;
+        }
+        public static void CreateTable(string connectionString)
         {
             var conn = new SQLiteConnection(connectionString);
             conn.Open();
             var tblCommand = conn.CreateCommand();
             tblCommand.CommandText = @$"
-CREATE TABLE IF NOT EXISTS {_table} (
-    Id        INT  NOT NULL,
-    StartTime TIME,
-    EndTime   TIME,
-    Duration  TIME,
-    PRIMARY KEY (
-        Id
-    )
-);
-";
-            tblCommand.ExecuteNonQuery();
-            return conn;
-        }
-        public static void CreateTable(string connectionString)
-        {
-            var conn = new DBFactory().CreateConnection(connectionString);
-            var tblCommand = conn.CreateCommand();
-            tblCommand.CommandText = @$"
-CREATE TABLE IF NOT EXISTS {_table} (
-    Id        INT  NOT NULL,
-    StartTime TIME,
-    EndTime   TIME,
-    Duration  TIME,
-    PRIMARY KEY (
-        Id
-    )
-);
-";
+        CREATE TABLE IF NOT EXISTS {_table} (
+            Id        INTEGER PRIMARY KEY,
+            StartTime TIME,
+            EndTime   TIME,
+            Duration  TIME,
+            PRIMARY KEY (
+                Id
+            )
+        );
+        ";
             tblCommand.ExecuteNonQuery();
             conn.Close();
         }
@@ -58,6 +44,7 @@ INSERT INTO {_table} (
 ) VALUES ({value});
 ";
             tblCommand.ExecuteNonQuery();
+
         }
         public static void UpdateRecord(string connectionString, string column, string value, int id)
         {
