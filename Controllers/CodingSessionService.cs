@@ -14,70 +14,8 @@ namespace CodingTracker.Controllers
             _dbFactory = new DBFactory();
             _connectionString = connectionString;
         }
-        static List<string> ReturnPropertyNamesThatHaveValues(object obj)
-        {
-            Type objType = obj.GetType();
-            PropertyInfo[] properties = objType.GetProperties();
-            List<string> propertyNames = new List<string>();
-
-            foreach (PropertyInfo property in properties)
-            {
-
-                object value = property.GetValue(obj);
-                if (value != null)
-                {
-                    propertyNames.Add(property.Name);
-                }
 
 
-            }
-
-            return propertyNames;
-        }
-        static List<string> ReturnPropertyValuesThatHaveValues(object obj)
-        {
-            Type objType = obj.GetType();
-            PropertyInfo[] properties = objType.GetProperties();
-            List<string> propertyNames = new List<string>();
-
-            foreach (PropertyInfo property in properties)
-            {
-
-                object value = property.GetValue(obj);
-                if (value != null)
-                {
-                    propertyNames.Add(property.Name);
-                }
-
-
-            }
-
-            return propertyNames;
-        }
-
-        static bool VerifyPropertyValues(object obj)
-        {
-            Type objType = obj.GetType();
-            PropertyInfo[] properties = objType.GetProperties();
-            var allPropertiesAreValid = false;
-            foreach (PropertyInfo property in properties)
-            {
-                object value = property.GetValue(obj);
-                if (value == null || (property.PropertyType.IsValueType && value.Equals(Activator.CreateInstance(property.PropertyType))))
-                {
-                    Console.WriteLine($"Property '{property.Name}' has no value.");
-                    allPropertiesAreValid = false;
-                    break;
-                }
-                else
-                {
-                    //Console.WriteLine($"Property '{property.Name}' has a value: {value}");
-                    allPropertiesAreValid = true;
-                }
-
-            }
-            return allPropertiesAreValid;
-        }
         public void GetTimerRecord(string mode)
         {
             var CodingModal = new CodingSessionModal();
@@ -123,12 +61,6 @@ namespace CodingTracker.Controllers
                     values += $"'{value}'";
                 }
 
-            }
-
-            var result = VerifyPropertyValues(codingSession);
-            if (!String.IsNullOrWhiteSpace(columns) && !String.IsNullOrWhiteSpace(values))
-            {
-                DBFactory.InsertRecord(_connectionString, columns, values);
             }
 
         }

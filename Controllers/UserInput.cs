@@ -1,16 +1,15 @@
 ﻿using CodingTracker.Modals;
-using System.Configuration;
 
 namespace CodingTracker.Controllers
 {
     internal class UserInput
     {
-        private static string _connectionString;
+        //private static string _connectionString;
 
 
         public static void PromptUser()
         {
-            _connectionString = ConfigurationManager.ConnectionStrings[1].ConnectionString;
+
 
             Console.WriteLine("-----------------------------------");
             Console.WriteLine("Main Menu");
@@ -54,12 +53,12 @@ Type 6 to Update a Record
                 case "2":
                     CodingSession.StopTimer();
 
-                    var CodingSessionService = new CodingSessionService(_connectionString);
-                    CodingSessionService.Save(CodingTime);
+                    //var CodingSessionService = new CodingSessionService(_connectionString);
+                    //CodingSessionService.Save(CodingTime);
                     break;
                 case "3":
                     CodingSession = CodingSession.CreateTimerRecord(ref CodingTime);
-                    // handle new record here
+
                     break;
                 case "4":
                     //Console.WriteLine("Delete A Record");

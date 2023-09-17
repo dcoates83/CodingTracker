@@ -76,14 +76,14 @@ DELETE FROM {_table} WHERE ID = {id};
                 using (var tblCommand = conn.CreateCommand())
                 {
                     tblCommand.CommandText = $"SELECT {select} FROM {_table} WHERE {column} {searchValue};";
-                    //tblCommand.Parameters.AddWithValue("@SearchValue", searchValue);
-                    //var result = tblCommand.ExecuteScalar();
+
                     using (var reader = tblCommand.ExecuteReader())
                     {
                         if (reader.HasRows)
                         {
                             while (reader.Read())
                             {
+
                                 return reader.GetInt32(0); // Gets the integer value from the first column (ID)
                             }
                         }
@@ -92,27 +92,29 @@ DELETE FROM {_table} WHERE ID = {id};
             }
             return null;
         }
+        public static List<int> GetRecords(string connectionString, string select, string column, string searchValue)
+        {
+            List<int> results = new List<int>();
+            using (var conn = new DBFactory().CreateConnection(connectionString))
+            {
+                using (var tblCommand = conn.CreateCommand())
+                {
+                    tblCommand.CommandText = $"SELECT {select} FROM {_table} WHERE {column} {searchValue};";
 
-        //public static int? GetRecord(string connectionString, string select, string column, string searchValue)
-        //{
-        //    var conn = new DBFactory().CreateConnection(connectionString);
-        //    var tblCommand = conn.CreateCommand();
-
-        //    tblCommand.CommandText = $"SELECT {select} FROM {_table} WHERE {column} = @SearchValue";
-        //    tblCommand.Parameters.AddWithValue("@SearchValue", searchValue);
-        //    tblCommand.ExecuteNonQuery();
-        //    var reader = tblCommand.ExecuteReader();
-        //    if (reader.HasRows)
-        //    {
-        //        while (reader.Read())
-        //        {
-        //            return reader.GetInt32(0); // Gets the integer value from the first column (ID)
-        //        }
-        //    }
-        //    reader.Close();
-        //    conn.Close();
-
-        //    return null;
-        //}
+                    using (var reader = tblCommand.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+                                //TODO: needs to consider other values that just Int's
+                                results.Add(reader.GetInt32(0));
+                            }
+                        }
+                    }
+                }
+            }
+            return results;
+        }
     }
 }
