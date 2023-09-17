@@ -5,9 +5,14 @@ namespace CodingTracker.Controllers
 {
     public class CodingSession
     {
-
-        public void StartTimer(CodingSessionModal time)
+        private static string _connectionString = ConfigurationManager.ConnectionStrings[1].ConnectionString;
+        public void StartTimer()
         {
+
+            var time = new CodingSessionModal();
+            var CodingSessionService = new CodingSessionService(_connectionString);
+            CodingSessionService.GetTimerRecord("start");
+
             if (time != null && time.StartTime != null)
             {
                 Console.WriteLine($"There is already an active timer. Timer: {time.StartTime.ToString()}");
@@ -19,13 +24,13 @@ namespace CodingTracker.Controllers
                 time.StartTime = DateTime.Now;
                 Console.WriteLine($"Timer Started at {DateTime.Now.ToString()}");
             }
-            var CodingSessionService = new CodingSessionService(ConfigurationManager.ConnectionStrings[1].ConnectionString);
             CodingSessionService.Save(time);
-            //return time;
+
+
 
         }
         // Constructor with an initial time value
-        public void SetStartTime(CodingSessionModal time, DateTime initialTime)
+        public void SetStartTime(ref CodingSessionModal time, DateTime initialTime)
         {
 
             if (time == null)
@@ -35,9 +40,12 @@ namespace CodingTracker.Controllers
             }
 
         }
-        public CodingSessionModal StopTimer(CodingSessionModal time)
+        public void StopTimer()
 
         {
+            var time = new CodingSessionModal();
+            var CodingSessionService = new CodingSessionService(_connectionString);
+            CodingSessionService.GetTimerRecord("stop");
             if (time == null)
             {
                 Console.WriteLine("There is no active timer, please start a timer");
@@ -49,12 +57,12 @@ namespace CodingTracker.Controllers
                 Console.WriteLine($"Timer Ended at {DateTime.Now.ToString()}");
                 Console.WriteLine($"Duration: {time.Duration}");
             }
-            return time;
+
 
 
         }
         // Constructor with an initial time value
-        public void SetEndTime(CodingSessionModal time, DateTime endTime)
+        public void SetEndTime(ref CodingSessionModal time, DateTime endTime)
         {
             if (time != null && time.StartTime != null)
             {
@@ -72,7 +80,7 @@ namespace CodingTracker.Controllers
 
         }
 
-        public static CodingSession CreateTimerRecord(CodingSessionModal time)
+        public static CodingSession CreateTimerRecord(ref CodingSessionModal time)
         {
             var CodingSession = new CodingSession();
 
@@ -87,8 +95,8 @@ namespace CodingTracker.Controllers
             var _endTimeResp = Console.ReadLine();
             DateTime _endTime = Validation.ValidateDateResponse(ref _endTimeResp, timeFormat);
 
-            CodingSession.SetStartTime(time, (DateTime)_startTime);
-            CodingSession.SetEndTime(time, (DateTime)_endTime);
+            CodingSession.SetStartTime(ref time, (DateTime)_startTime);
+            CodingSession.SetEndTime(ref time, (DateTime)_endTime);
 
             return CodingSession;
         }

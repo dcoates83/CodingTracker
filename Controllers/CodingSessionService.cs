@@ -78,6 +78,32 @@ namespace CodingTracker.Controllers
             }
             return allPropertiesAreValid;
         }
+        public void GetTimerRecord(string mode)
+        {
+            var CodingModal = new CodingSessionModal();
+            string Id = nameof(CodingModal.Id);
+            switch (mode)
+            {
+                case "start":
+                    {
+                        string StartTime = nameof(CodingModal.StartTime);
+                        var resp = DBFactory.GetRecord(_connectionString, Id, StartTime, "IS NULL");
+                        Console.WriteLine(resp.ToString());
+                        break;
+                    }
+                case "stop":
+                    {
+                        string EndTime = nameof(CodingModal.EndTime);
+                        var resp = DBFactory.GetRecord(_connectionString, Id, EndTime, "IS NULL");
+                        Console.WriteLine(resp.ToString());
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
 
         public void Save(CodingSessionModal codingSession)
         {

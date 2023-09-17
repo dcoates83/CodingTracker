@@ -49,15 +49,16 @@ Type 6 to Update a Record
             switch (input)
             {
                 case "1":
-                    CodingSession.StartTimer(CodingTime);
+                    CodingSession.StartTimer();
                     break;
                 case "2":
-                    CodingSession.StopTimer(CodingTime);
+                    CodingSession.StopTimer();
+
                     var CodingSessionService = new CodingSessionService(_connectionString);
                     CodingSessionService.Save(CodingTime);
                     break;
                 case "3":
-                    CodingSession = CodingSession.CreateTimerRecord(CodingTime);
+                    CodingSession = CodingSession.CreateTimerRecord(ref CodingTime);
                     // handle new record here
                     break;
                 case "4":
