@@ -46,7 +46,6 @@ namespace CodingTracker.Controllers
         public void Save(CodingSessionModal codingSession)
         {
 
-
             var columns = "";
             var values = "";
             Type objType = codingSession.GetType();
@@ -54,15 +53,19 @@ namespace CodingTracker.Controllers
 
             foreach (PropertyInfo property in properties)
             {
-                object value = property.GetValue(codingSession);
+                var value = property.GetValue(codingSession);
+
                 if (value != null)
                 {
-                    columns += property.Name;
-                    values += $"'{value}'";
+                    columns += $"'{property.Name}',";
+                    values += $"'{value}',";
                 }
 
             }
+            columns = columns.TrimEnd(',');
+            values = values.TrimEnd(',');
 
+            DBFactory.InsertRecord(_connectionString, columns, values);
         }
 
 

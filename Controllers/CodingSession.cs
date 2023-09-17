@@ -11,21 +11,12 @@ namespace CodingTracker.Controllers
 
             var time = new CodingSessionModal();
             var CodingSessionService = new CodingSessionService(_connectionString);
-            CodingSessionService.GetTimerRecord("start");
+            //CodingSessionService.GetTimerRecord("start");
 
-            if (time != null && time.StartTime != null)
-            {
-                Console.WriteLine($"There is already an active timer. Timer: {time.StartTime.ToString()}");
-            }
-            else
-            {
+            time.StartTime = DateTime.Now;
+            Console.WriteLine($"Timer Started at {DateTime.Now.ToString()}");
 
-                time = new CodingSessionModal();
-                time.StartTime = DateTime.Now;
-                Console.WriteLine($"Timer Started at {DateTime.Now.ToString()}");
-            }
             CodingSessionService.Save(time);
-
 
 
         }

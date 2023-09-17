@@ -52,9 +52,6 @@ Type 6 to Update a Record
                     break;
                 case "2":
                     CodingSession.StopTimer();
-
-                    //var CodingSessionService = new CodingSessionService(_connectionString);
-                    //CodingSessionService.Save(CodingTime);
                     break;
                 case "3":
                     CodingSession = CodingSession.CreateTimerRecord(ref CodingTime);

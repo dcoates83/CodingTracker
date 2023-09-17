@@ -25,10 +25,7 @@ namespace CodingTracker.DB
             Id        INTEGER PRIMARY KEY,
             StartTime TIME,
             EndTime   TIME,
-            Duration  TIME,
-            PRIMARY KEY (
-                Id
-            )
+            Duration  TIME
         );
         ";
             tblCommand.ExecuteNonQuery();
