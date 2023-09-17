@@ -55,8 +55,13 @@ namespace CodingTracker.Controllers
             {
                 var value = property.GetValue(codingSession);
 
-                if (value != null)
+                if (value != null && value.GetType() == typeof(int) && (int)value == 0)
                 {
+                    continue;
+                }
+                else if (value != null)
+                {
+
                     columns += $"'{property.Name}',";
                     values += $"'{value}',";
                 }
