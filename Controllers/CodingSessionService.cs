@@ -18,21 +18,13 @@ namespace CodingTracker.Controllers
 
         public void GetEndTimeRecord()
         {
-            string colId = nameof(CodingSessionModal.Id);
-            string EndTime = nameof(CodingSessionModal.EndTime);
-
-            var resp = DBFactory.GetRecord<long>(_connectionString, colId, EndTime, "IS NULL");
+            var resp = DBFactory.GetRecord<long>(_connectionString, nameof(CodingSessionModal.Id), nameof(CodingSessionModal.EndTime), "IS NULL");
             Console.WriteLine(resp.ToString());
-
-
         }
         public long? GetStartTimeId()
         {
 
-            string colId = nameof(CodingSessionModal.Id);
-            string StartTime = nameof(CodingSessionModal.StartTime);
-
-            long? id = DBFactory.GetRecord<long>(_connectionString, colId, StartTime, "IS NOT NULL");
+            long? id = DBFactory.GetRecord<long>(_connectionString, nameof(CodingSessionModal.Id), nameof(CodingSessionModal.StartTime), "IS NOT NULL");
             if (id != null)
             {
                 return id;
@@ -41,9 +33,7 @@ namespace CodingTracker.Controllers
         }
         public DateTime? GetStartTime()
         {
-            string StartTime = nameof(CodingSessionModal.StartTime);
-
-            DateTime? startTime = DBFactory.GetRecord<DateTime>(_connectionString, StartTime, StartTime, "IS NOT NULL");
+            DateTime? startTime = DBFactory.GetRecord<DateTime>(_connectionString, nameof(CodingSessionModal.StartTime), nameof(CodingSessionModal.StartTime), "IS NOT NULL");
             if (startTime != null)
             {
                 return startTime;
