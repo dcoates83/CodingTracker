@@ -46,9 +46,20 @@ namespace CodingTracker.Controllers
             else if (startTime != null)
             {
                 time.EndTime = DateTime.Now;
-                time.Duration = time.EndTime - startTime;
-                Console.WriteLine($"Timer Ended at {DateTime.Now.ToString()}");
-                Console.WriteLine($"Duration: {time.Duration}");
+                time.StartTime = startTime;
+                time.Duration = time.EndTime - time.StartTime;
+                try
+                {
+                    CodingSessionService.Save(time);
+                    Console.WriteLine($"Timer Ended at {DateTime.Now.ToString()}");
+                    Console.WriteLine($"Duration: {time.Duration}");
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+
             }
 
 
