@@ -54,7 +54,7 @@ Type 6 to Update a Record
                     CodingSession.StopTimer();
                     break;
                 case "3":
-                    CodingSession = CodingSession.CreateTimerRecord(ref CodingTime);
+                    //CodingSession = CodingSession.CreateTimerRecord(ref CodingTime);
 
                     break;
                 case "4":

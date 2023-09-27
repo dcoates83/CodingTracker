@@ -14,6 +14,7 @@ namespace CodingTracker.Controllers
             //CodingSessionService.GetTimerRecord("start");
 
             time.StartTime = DateTime.Now;
+
             Console.WriteLine($"Timer Started at {DateTime.Now.ToString()}");
 
             CodingSessionService.Save(time);
@@ -36,15 +37,16 @@ namespace CodingTracker.Controllers
         {
             var time = new CodingSessionModal();
             var CodingSessionService = new CodingSessionService(_connectionString);
-            CodingSessionService.GetTimerRecord("stop");
-            if (time == null)
+            //var startTimeId = CodingSessionService.GetStartTimeId();
+            var startTime = CodingSessionService.GetStartTime();
+            if (startTime == null)
             {
                 Console.WriteLine("There is no active timer, please start a timer");
             }
-            else if (time != null && time.StartTime != null)
+            else if (startTime != null)
             {
                 time.EndTime = DateTime.Now;
-                time.Duration = time.EndTime - time.StartTime;
+                time.Duration = time.EndTime - startTime;
                 Console.WriteLine($"Timer Ended at {DateTime.Now.ToString()}");
                 Console.WriteLine($"Duration: {time.Duration}");
             }

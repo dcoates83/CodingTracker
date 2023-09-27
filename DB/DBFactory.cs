@@ -1,4 +1,5 @@
 ﻿using System.Data.SQLite;
+using System.Globalization;
 
 namespace CodingTracker.DB
 {
@@ -23,8 +24,8 @@ namespace CodingTracker.DB
             tblCommand.CommandText = @$"
         CREATE TABLE IF NOT EXISTS {_table} (
             Id        INTEGER PRIMARY KEY,
-            StartTime TIME,
-            EndTime   TIME,
+            StartTime DATETIME,
+            EndTime   DATETIME,
             Duration  TIME
         );
         ";
@@ -66,7 +67,7 @@ DELETE FROM {_table} WHERE ID = {id};
             tblCommand.ExecuteNonQuery();
             conn.Close();
         }
-        public static int? GetRecord(string connectionString, string select, string column, string searchValue)
+        public static T? GetRecord<T>(string connectionString, string select, string column, string searchValue)
         {
             using (var conn = new DBFactory().CreateConnection(connectionString))
             {
@@ -76,18 +77,38 @@ DELETE FROM {_table} WHERE ID = {id};
 
                     using (var reader = tblCommand.ExecuteReader())
                     {
-                        if (reader.HasRows)
+                        if (reader.Read())
                         {
-                            while (reader.Read())
-                            {
 
-                                return reader.GetInt32(0); // Gets the integer value from the first column (ID)
+                            if (typeof(T) == typeof(DateTime))
+                            {
+                                string dateTimeStr = reader.GetString(0);
+                                DateTime parsedDateTime;
+                                if (DateTime.TryParseExact(dateTimeStr, "yyyy-MM-dd h:mm:ss tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out parsedDateTime))
+                                {
+                                    return (T)(object)parsedDateTime;
+                                }
+                                else
+                                {
+                                    // Handle failure to parse DateTime
+                                    return default(T);
+                                }
                             }
+                            else if (reader[0] is T value)
+                            {
+                                return value;
+                            }
+                            else
+                            {
+                                // Handle type mismatch or throw an exception
+                                return default(T);
+                            }
+
                         }
                     }
                 }
             }
-            return null;
+            return default(T);
         }
         public static List<int> GetRecords(string connectionString, string select, string column, string searchValue)
         {
