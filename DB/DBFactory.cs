@@ -45,16 +45,19 @@ INSERT INTO {_table} (
 
             conn.Close();
         }
-        public static void UpdateRecord(string connectionString, string column, string value, int id)
+        public static void UpdateRecord(string connectionString, string column, object value, int id)
         {
             var conn = new DBFactory().CreateConnection(connectionString);
             var tblCommand = conn.CreateCommand();
+
+            // currently the values are coming back like this "'Id','StartTime','EndTime','Duration'" 
+            // this wont work
             tblCommand.CommandText = @$"
 UPDATE {_table} 
 SET {column} = {value}
 WHERE Id = {id};
-;
 ";
+
             tblCommand.ExecuteNonQuery();
         }
         public static void DeleteRecord(string connectionString, int id)

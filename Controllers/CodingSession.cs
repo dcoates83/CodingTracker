@@ -1,4 +1,5 @@
-﻿using CodingTracker.Modals;
+﻿using CodingTracker.DB;
+using CodingTracker.Modals;
 using System.Configuration;
 
 namespace CodingTracker.Controllers
@@ -11,46 +12,46 @@ namespace CodingTracker.Controllers
 
             var time = new CodingSessionModal();
             var CodingSessionService = new CodingSessionService(_connectionString);
-            //CodingSessionService.GetTimerRecord("start");
 
             time.StartTime = DateTime.Now;
 
-            Console.WriteLine($"Timer Started at {DateTime.Now.ToString()}");
+            Console.WriteLine($"Timer Started at {DateTime.Now}");
 
-            CodingSessionService.Save(time);
+            CodingSessionService.InsertNewCodingSession(time);
 
 
         }
-        // Constructor with an initial time value
-        public void SetStartTime(ref CodingSessionModal time, DateTime initialTime)
+        public void SetStartTime(DateTime initialTime)
         {
+            var time = new CodingSessionModal();
+            var CodingSessionService = new CodingSessionService(_connectionString);
 
-            if (time == null)
-            {
-                time = new CodingSessionModal();
-                time.StartTime = initialTime;
-            }
+            time.StartTime = initialTime;
 
+            CodingSessionService.InsertNewCodingSession(time);
         }
         public void StopTimer()
 
         {
             var time = new CodingSessionModal();
             var CodingSessionService = new CodingSessionService(_connectionString);
-            //var startTimeId = CodingSessionService.GetStartTimeId();
             var startTime = CodingSessionService.GetStartTime();
+            var id = (int?)CodingSessionService.GetStartTimeId();
+
             if (startTime == null)
             {
                 Console.WriteLine("There is no active timer, please start a timer");
             }
-            else if (startTime != null)
+            else if (startTime != null && id != null)
             {
                 time.EndTime = DateTime.Now;
                 time.StartTime = startTime;
                 time.Duration = time.EndTime - time.StartTime;
                 try
                 {
-                    CodingSessionService.Save(time);
+                    DBFactory.UpdateRecord(_connectionString, nameof(time.EndTime), $"'{time.EndTime?.ToString("yyyy-MM-dd HH:mm:ss")}'", (int)id);
+                    DBFactory.UpdateRecord(_connectionString, nameof(time.Duration), value: time.Duration?.TotalSeconds, (int)id);
+                    //CodingSessionService.UpdateExistingCodingSessionById(time, (int)id);
                     Console.WriteLine($"Timer Ended at {DateTime.Now.ToString()}");
                     Console.WriteLine($"Duration: {time.Duration}");
                 }
@@ -65,16 +66,24 @@ namespace CodingTracker.Controllers
 
 
         }
-        // Constructor with an initial time value
-        public void SetEndTime(ref CodingSessionModal time, DateTime endTime)
+        public void SetEndTime(DateTime endTime)
         {
-            if (time != null && time.StartTime != null)
+            var time = new CodingSessionModal();
+            var CodingSessionService = new CodingSessionService(_connectionString);
+            var startTime = CodingSessionService.GetStartTime();
+            var id = (int?)CodingSessionService.GetStartTimeId();
+
+            if (time != null && startTime != null && id != null)
             {
+                time.Id = (int)id;
+                time.StartTime = startTime;
                 time.EndTime = endTime;
                 time.Duration = time.EndTime - time.StartTime;
 
+                CodingSessionService.UpdateExistingCodingSessionById(time, (int)id);
                 Console.WriteLine();
                 Console.WriteLine($"Duration: {time.Duration}");
+
             }
             else
             {
@@ -84,7 +93,7 @@ namespace CodingTracker.Controllers
 
         }
 
-        public static CodingSession CreateTimerRecord(ref CodingSessionModal time)
+        public static void CreateTimerRecord()
         {
             var CodingSession = new CodingSession();
 
@@ -99,10 +108,9 @@ namespace CodingTracker.Controllers
             var _endTimeResp = Console.ReadLine();
             DateTime _endTime = Validation.ValidateDateResponse(ref _endTimeResp, timeFormat);
 
-            CodingSession.SetStartTime(ref time, (DateTime)_startTime);
-            CodingSession.SetEndTime(ref time, (DateTime)_endTime);
+            CodingSession.SetStartTime((DateTime)_startTime);
+            CodingSession.SetEndTime((DateTime)_endTime);
 
-            return CodingSession;
         }
 
 

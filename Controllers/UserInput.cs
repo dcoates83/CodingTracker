@@ -1,6 +1,4 @@
-﻿using CodingTracker.Modals;
-
-namespace CodingTracker.Controllers
+﻿namespace CodingTracker.Controllers
 {
     internal class UserInput
     {
@@ -43,7 +41,6 @@ Type 6 to Update a Record
         public static void ParseUserInput(string input)
         {
             var CodingSession = new CodingSession();
-            var CodingTime = new CodingSessionModal();
 
             switch (input)
             {
@@ -54,8 +51,7 @@ Type 6 to Update a Record
                     CodingSession.StopTimer();
                     break;
                 case "3":
-                    //CodingSession = CodingSession.CreateTimerRecord(ref CodingTime);
-
+                    CodingSession.CreateTimerRecord();
                     break;
                 case "4":
                     //Console.WriteLine("Delete A Record");
