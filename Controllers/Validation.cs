@@ -1,4 +1,4 @@
-﻿namespace CodingTracker
+﻿namespace CodingTracker.Controllers
 {
     internal class Validation
     {
