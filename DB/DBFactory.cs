@@ -50,6 +50,13 @@ INSERT INTO {_table} (
             var conn = new DBFactory().CreateConnection(connectionString);
             var tblCommand = conn.CreateCommand();
 
+            //if (column.Contains(","))
+            //{
+            //    foreach (string key in column.Split(','))
+            //    {
+            //        Console.WriteLine(key);
+            //    }
+            //}
             // currently the values are coming back like this "'Id','StartTime','EndTime','Duration'" 
             // this wont work
             tblCommand.CommandText = @$"

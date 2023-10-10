@@ -18,13 +18,13 @@ namespace CodingTracker.Controllers
 
         public void GetEndTimeRecord()
         {
-            var resp = DBFactory.GetRecord<long>(_connectionString, nameof(CodingSessionModal.Id), nameof(CodingSessionModal.EndTime), "IS NULL");
+            var resp = DBFactory.GetRecord<long>(_connectionString, nameof(CodingSessionModel.Id), nameof(CodingSessionModel.EndTime), "IS NULL");
             Console.WriteLine(resp.ToString());
         }
         public long? GetStartTimeId()
         {
 
-            long? id = DBFactory.GetRecord<long>(_connectionString, nameof(CodingSessionModal.Id), nameof(CodingSessionModal.StartTime), "IS NOT NULL");
+            long? id = DBFactory.GetRecord<long>(_connectionString, nameof(CodingSessionModel.Id), nameof(CodingSessionModel.StartTime), "IS NOT NULL");
             if (id != null)
             {
                 return id;
@@ -33,7 +33,7 @@ namespace CodingTracker.Controllers
         }
         public DateTime? GetStartTime()
         {
-            DateTime? startTime = DBFactory.GetRecord<DateTime>(_connectionString, nameof(CodingSessionModal.StartTime), nameof(CodingSessionModal.StartTime), "IS NOT NULL");
+            DateTime? startTime = DBFactory.GetRecord<DateTime>(_connectionString, nameof(CodingSessionModel.StartTime), nameof(CodingSessionModel.StartTime), "IS NOT NULL");
             if (startTime != null)
             {
                 return startTime;
@@ -41,17 +41,17 @@ namespace CodingTracker.Controllers
             return null;
         }
 
-        public void InsertNewCodingSession(CodingSessionModal codingSession)
+        public void InsertNewCodingSession(CodingSessionModel codingSession)
         {
             SQLColumnsAndValues result = ObjectToSQLMapper.MapToSQLColumnsAndValues(codingSession);
 
             DBFactory.InsertRecord(_connectionString, result.columns, result.values);
         }
-        public void UpdateExistingCodingSessionById(CodingSessionModal codingSession, int id)
-        {
-            SQLColumnsAndValues result = ObjectToSQLMapper.MapToSQLColumnsAndValues(codingSession);
-            DBFactory.UpdateRecord(_connectionString, result.columns, result.values, id);
-        }
+        //public void UpdateExistingCodingSessionById(CodingSessionModel codingSession, int id)
+        //{
+        //    SQLColumnsAndValues result = ObjectToSQLMapper.MapToSQLColumnsAndValues(codingSession);
+        //    DBFactory.UpdateRecord(_connectionString, result.columns, result.values, id);
+        //}
 
     }
 }

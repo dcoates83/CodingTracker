@@ -12,7 +12,7 @@ namespace CodingTracker.Controllers
     public class ObjectToSQLMapper
     {
 
-        public static SQLColumnsAndValues MapToSQLColumnsAndValues(CodingSessionModal codingSession)
+        public static SQLColumnsAndValues MapToSQLColumnsAndValues(CodingSessionModel codingSession)
         {
             var columns = "";
             var values = "";
