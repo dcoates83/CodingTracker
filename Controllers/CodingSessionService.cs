@@ -1,5 +1,5 @@
 ﻿using CodingTracker.DB;
-using CodingTracker.Modals;
+using CodingTracker.Models;
 
 namespace CodingTracker.Controllers
 {
@@ -41,17 +41,8 @@ namespace CodingTracker.Controllers
             return null;
         }
 
-        public void InsertNewCodingSession(CodingSessionModel codingSession)
-        {
-            SQLColumnsAndValues result = ObjectToSQLMapper.MapToSQLColumnsAndValues(codingSession);
 
-            DBFactory.InsertRecord(_connectionString, result.columns, result.values);
-        }
-        //public void UpdateExistingCodingSessionById(CodingSessionModel codingSession, int id)
-        //{
-        //    SQLColumnsAndValues result = ObjectToSQLMapper.MapToSQLColumnsAndValues(codingSession);
-        //    DBFactory.UpdateRecord(_connectionString, result.columns, result.values, id);
-        //}
+
 
     }
 }

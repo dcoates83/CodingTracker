@@ -1,5 +1,5 @@
 ﻿using CodingTracker.DB;
-using CodingTracker.Modals;
+using CodingTracker.Models;
 using System.Configuration;
 
 namespace CodingTracker.Controllers
@@ -7,28 +7,27 @@ namespace CodingTracker.Controllers
     public class CodingSession
     {
         private static string _connectionString = ConfigurationManager.ConnectionStrings[1].ConnectionString;
+        public static void CreateNewCodingSession(CodingSessionModel codingSession)
+        {
+            SQLColumnsAndValues result = ObjectToSQLMapper.MapToSQLColumnsAndValues(codingSession);
+
+            DBFactory.InsertRecord(_connectionString, result.columns, result.values);
+        }
         public void StartTimer()
         {
-
             var time = new CodingSessionModel();
-            var CodingSessionService = new CodingSessionService(_connectionString);
-
             time.StartTime = DateTime.Now;
 
             Console.WriteLine($"Timer Started at {DateTime.Now}");
-
-            CodingSessionService.InsertNewCodingSession(time);
+            CreateNewCodingSession(time);
 
 
         }
         public void SetStartTime(DateTime initialTime)
         {
             var time = new CodingSessionModel();
-            var CodingSessionService = new CodingSessionService(_connectionString);
-
             time.StartTime = initialTime;
-
-            CodingSessionService.InsertNewCodingSession(time);
+            CreateNewCodingSession(time);
         }
         public void StopTimer()
 

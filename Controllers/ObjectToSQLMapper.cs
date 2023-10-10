@@ -1,4 +1,4 @@
-﻿using CodingTracker.Modals;
+﻿using CodingTracker.Models;
 using System.Reflection;
 
 namespace CodingTracker.Controllers

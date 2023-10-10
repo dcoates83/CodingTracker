@@ -1,4 +1,4 @@
-﻿namespace CodingTracker.Modals
+﻿namespace CodingTracker.Models
 {
     public class CodingSessionModel
     {
