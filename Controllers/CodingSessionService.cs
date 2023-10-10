@@ -6,12 +6,12 @@ namespace CodingTracker.Controllers
 
     public class CodingSessionService : ObjectToSQLMapper
     {
-        private readonly DBFactory _dbFactory;
+
         private readonly string _connectionString;
 
         public CodingSessionService(string connectionString)
         {
-            _dbFactory = new DBFactory();
+
             _connectionString = connectionString;
         }
 

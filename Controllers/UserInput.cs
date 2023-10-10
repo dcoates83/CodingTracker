@@ -2,8 +2,6 @@
 {
     internal class UserInput
     {
-        //private static string _connectionString;
-
 
         public static void PromptUser()
         {
@@ -19,9 +17,7 @@ Type 0 to  Close Application
 Type 1 to Start a Timer
 Type 2 to Stop a Timer
 Type 3 to Create a Coding Session Record
-Type 4 to View All Records
-Type 5 to Delete a Record
-Type 6 to Update a Record
+
 ");
             Console.WriteLine("-----------------------------------");
         }
@@ -53,15 +49,7 @@ Type 6 to Update a Record
                 case "3":
                     CodingSession.CreateTimerRecord();
                     break;
-                case "4":
-                    //Console.WriteLine("Delete A Record");
-                    break;
-                case "5":
-                    //Console.WriteLine("Update A Record");
-                    break;
-                case "6":
-                    Console.WriteLine("");
-                    break;
+
                 default:
                     if (string.IsNullOrEmpty(input))
                     {
