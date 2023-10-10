@@ -6,7 +6,7 @@ namespace CodingTracker.Controllers
 {
     public class CodingSession
     {
-        private static string _connectionString = ConfigurationManager.ConnectionStrings[1].ConnectionString;
+        private static readonly string _connectionString = ConfigurationManager.ConnectionStrings[1].ConnectionString;
         public static void CreateNewCodingSession(CodingSessionModel codingSession)
         {
             SQLColumnsAndValues result = ObjectToSQLMapper.MapToSQLColumnsAndValues(codingSession);
